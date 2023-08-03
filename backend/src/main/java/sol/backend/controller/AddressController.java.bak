@@ -1,0 +1,45 @@
+package sol.backend.controller;
+
+import java.util.List;
+
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.format.annotation.DateTimeFormat;
+import org.springframework.stereotype.Controller;
+import org.springframework.ui.Model;
+import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.ResponseBody;
+
+import sol.backend.domain.Address;
+import sol.backend.service.AddressService;
+
+@RequestMapping("/addr")
+@Controller
+public class AddressController {
+    @Autowired
+    private AddressService service;
+
+    @ResponseBody
+    @GetMapping("/list")
+    public List<Address> list(Model model) {
+        List<Address> list = service.list();
+        //model.addAttribute("list", service.list());
+        return service.list();
+    }
+
+    @GetMapping("/write")
+    public void loadWritePage() {}
+
+    @PostMapping("/write")
+    public String doWrite(Address address) {
+        service.insert(address);
+        return "redirect:list";
+    }
+
+    @GetMapping("/delete")
+    public String doDelete(long seq) {
+        service.delete(seq);
+        return "redirect:list";
+    }
+}

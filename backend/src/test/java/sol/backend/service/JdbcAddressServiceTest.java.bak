@@ -1,0 +1,43 @@
+package sol.backend.service;
+
+import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertNotNull;
+
+import java.util.List;
+
+import org.junit.jupiter.api.Test;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.boot.test.context.SpringBootTest;
+
+import sol.backend.domain.Address;
+
+@SpringBootTest
+public class JdbcAddressServiceTest {
+    @Autowired
+    private JdbcAddressService service; 
+    
+    @Test
+    void testDelete() {
+        Address address = new Address(-1L, "testName2", "testAddr2", null);
+        Address addressDb = service.insert(address);
+        System.out.println("#addressDb: " + addressDb);
+        assertEquals(true, service.delete(addressDb.getSeq()));
+    }
+
+    @Test
+    void testInsert() {
+        Address address = new Address(-1L, "testName", "testAddr", null);
+        Address addressDb = service.insert(address);
+        System.out.println("#addressDb: " + addressDb);
+        assertEquals("testName", addressDb.getName());
+        assertEquals("testAddr", addressDb.getAddr());
+        service.delete(addressDb.getSeq());
+    }
+
+    @Test
+    void testList() {
+        List<Address> list = service.list();
+        System.out.println(list);
+        assertNotNull(list);
+    }
+}

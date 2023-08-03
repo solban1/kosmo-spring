@@ -1,0 +1,31 @@
+package sol.backend.service;
+
+import java.util.List;
+
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Service;
+
+import sol.backend.domain.Address;
+import sol.backend.repository.JdbcAddressRepository;
+
+@Service
+public class JdbcAddressService implements AddressService {
+    @Autowired
+    private JdbcAddressRepository repository;
+
+    @Override
+    public List<Address> list() {
+        return repository.list();
+    }
+
+    @Override
+    public Address insert(Address address) {
+        return repository.insert(address);
+    }
+
+    @Override
+    public boolean delete(long seq) {
+        return repository.delete(seq);
+    }
+
+}

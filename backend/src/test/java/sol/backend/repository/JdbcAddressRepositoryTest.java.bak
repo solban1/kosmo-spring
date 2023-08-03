@@ -1,0 +1,53 @@
+package sol.backend.repository;
+
+import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertNotEquals;
+import static org.junit.jupiter.api.Assertions.assertNotNull;
+
+import java.sql.Connection;
+import java.util.List;
+
+import org.junit.jupiter.api.Test;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.boot.test.context.SpringBootTest;
+
+import sol.backend.domain.Address;
+
+@SpringBootTest
+public class JdbcAddressRepositoryTest {
+    @Autowired
+    private JdbcAddressRepository repository;
+    
+    @Test
+    void testDelete() {
+        Address address = new Address(-1L, "testName2", "testAddr2", null);
+        Address addressDb = repository.insert(address);
+        System.out.println("#addressDb: " + addressDb);
+        assertEquals(true, repository.delete(addressDb.getSeq()));
+    }
+
+    @Test
+    void testGetConnection() {
+        System.out.println(repository);
+        Connection conn = repository.getConnection();
+        System.out.println(conn);
+        assertNotEquals(null, conn);
+    }
+
+    @Test
+    void testInsert() {
+        Address address = new Address(-1L, "testName", "testAddr", null);
+        Address addressDb = repository.insert(address);
+        System.out.println("#addressDb: " + addressDb);
+        assertEquals("testName", addressDb.getName());
+        assertEquals("testAddr", addressDb.getAddr());
+        repository.delete(addressDb.getSeq());
+    }
+
+    @Test
+    void testList() {
+        List<Address> list = repository.list();
+        System.out.println(list);
+        assertNotNull(list);
+    }
+}
