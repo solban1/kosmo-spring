@@ -1,6 +1,7 @@
 <%@page language="java" contentType="text/html; charset=UTF-8"
 	pageEncoding="UTF-8"%>
 <%@ taglib prefix="c" uri="jakarta.tags.core"%>
+<%@ taglib prefix="fmt" uri="jakarta.tags.fmt"%>
 <!DOCTYPE html>
 <html>
 <head>
@@ -32,7 +33,7 @@
 </TR>
 
       
-<c:forEach items="${list}" var="dto">
+<c:forEach items="${page.content}" var="dto">
     <TR align='center' noshade>
 		<TD>${dto.seq}</TD>
 		<TD>${dto.writer}</TD>
@@ -42,44 +43,34 @@
 		    ${dto.subject}
 		  </a>
 		</TD>
-		<TD>${dto.rdate}</TD>
+		<TD>
+			<fmt:formatDate value="${dto.rdate}" pattern="MM-dd HH:mm"/>
+		</TD>
 	   </TR> 
 	</c:forEach>
       
 </TABLE>
 <hr width='600' size='2' color='gray' noshade>
 <font color='gray' size='3' face='휴먼편지체'>
-    (총페이지수 : 3)
+    (총페이지수 : ${pages})
     &nbsp;&nbsp;&nbsp;
-    
-        <a href="list?cp=1">
+    <c:forEach begin="1" end="${page.totalPages}" varStatus="p">
+        <a href="list?page=${p.index}&size=${page.size}">
             
                 
-                	<strong>1</strong>
+                	<c:if test="${currentPage == p.index}">
+						<strong>
+					</c:if>
+							${p.index}
+					<c:if test="${currentPage == p.index}">
+						</strong>
+					</c:if>
                 
-                
-            
-    	</a>&nbsp;
-    
-        <a href="list?cp=2">
-            
-                
-                
-                    2 
                 
             
     	</a>&nbsp;
-    
-        <a href="list.do?cp=3">
-            
-                
-                
-                    3 
-                
-            
-    	</a>&nbsp;
-    
-    ( TOTAL : 9 )
+    </c:forEach>
+    ( TOTAL : ${count} )
     
     &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
        페이지 싸이즈 : 
@@ -100,9 +91,12 @@
            //var el = document.getElementById("psId");
            var ps = select.value;
            //alert("ps : " + ps);
-           location.href="list.do?ps="+ps;
+           location.href="list?size="+ps;
        }
     </script>
+	<script defer>
+		document.getElementById("psId").value = ${page.size};
+	</script>
     
 </font>
 <hr width='600' size='2' color='gray' noshade>

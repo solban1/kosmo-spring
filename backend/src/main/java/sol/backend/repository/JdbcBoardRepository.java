@@ -16,8 +16,7 @@ import sol.backend.domain.Board;
 
 //@Repository
 public class JdbcBoardRepository implements BoardRepository {
-    // @Autowired
-    // private JdbcTemplate jdbcTemplate;
+    //@Autowired
     private JdbcTemplate jdbcTemplate;
 
     public JdbcBoardRepository(DataSource dataSource) {

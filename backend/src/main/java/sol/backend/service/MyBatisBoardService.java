@@ -4,40 +4,38 @@ import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
-import org.springframework.transaction.annotation.Transactional;
 
 import sol.backend.domain.Board;
-import sol.backend.repository.BoardRepository;
+import sol.backend.mapper.BoardMapper;
 
 // @Service
-// @Transactional
-public class JdbcBoardService implements BoardService {
+public class MyBatisBoardService implements BoardService {
     @Autowired
-    private BoardRepository repository;
+    private BoardMapper mapper;
 
     @Override
     public List<Board> getList() {
-        return repository.getList();
+        return mapper.getList();
     }
 
     @Override
     public Board getContent(long seq) {
-        return repository.getContent(seq);
+        return mapper.getContent(seq);
     }
 
     @Override
     public void insert(Board board) {
-        repository.insert(board);
+        mapper.insert(board);
     }
 
     @Override
     public void update(Board board) {
-        repository.update(board);
+        mapper.update(board);
     }
 
     @Override
     public void delete(long seq) {
-        repository.delete(seq);
+        mapper.delete(seq);
     }
     
 }
